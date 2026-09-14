@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 16:05:03 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/14 15:22:38 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/14 22:20:53 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,4 @@ int main(int ac, char **av){
       return (0);
 
     printf("%s", "Done\n");
-    return (1);
 }

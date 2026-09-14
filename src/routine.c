@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 15:47:29 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/14 18:08:06 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/14 20:51:01 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,22 +69,20 @@ void *coder_routine(void *coder)
     int     res;
 
     coder1 = (t_coder *)coder;
-    while (coder1->data->number_of_compiles > 0)
+    res = acquire_dongles(coder1);
+
+    if (res == 1)
     {
-        res = acquire_dongles(coder1);
-        if (res == 1)
-        {
-            printf("0 %d is compiling\n", coder1->id + 1);
-            usleep(coder1->data->time_to_compile * 1000);
-            
-            release_dongles(coder1);
-            
-            printf("0 %d is debugging\n", coder1->id + 1);
-            usleep(coder1->data->time_to_debug * 1000);
-            printf("0 %d is refactoring\n", coder1->id + 1);
-            usleep(coder1->data->time_to_refactor * 1000);
-        }
-        coder1->data->number_of_compiles--;
+        printf("0 %d is compiling\n", coder1->id + 1);
+        usleep(coder1->data->time_to_compile * 1000);
+        
+        release_dongles(coder1);
+        
+        printf("0 %d is debugging\n", coder1->id + 1);
+        usleep(coder1->data->time_to_debug * 1000);
+        printf("0 %d is refactoring\n", coder1->id + 1);
+        usleep(coder1->data->time_to_refactor * 1000);
     }
+        
     return (NULL);
 }
