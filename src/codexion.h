@@ -32,6 +32,7 @@ typedef struct s_coder
   int       dongle_1_id;
   int       dongle_2_id;
 
+  
   t_data    *data;
 
 } t_coder;

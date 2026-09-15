@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 15:47:29 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/14 20:51:01 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/15 16:39:58 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int acquire_dongles(t_coder *coder)
 
     i = 0;
     while (i < coder->data->number_of_coders){
-        if (pthread_mutex_trylock(&coder->data->dongles[i].lock) == 0){
-            if (pthread_mutex_trylock(&coder->data->dongles[(i + 1) % coder->data->number_of_coders].lock) == 0){
+        if (pthread_mutex_lock(&coder->data->dongles[i].lock) == 0){
+            if (pthread_mutex_lock(&coder->data->dongles[(i + 1) % coder->data->number_of_coders].lock) == 0){
                 // mark as owned
                 coder->dongle_1_id = i;
                 coder->dongle_2_id = (i + 1) % coder->data->number_of_coders;
