@@ -61,15 +61,24 @@ typedef struct s_data
 } t_data;
 
 
+int   get_args(int ac, char **av, t_data *data);
+
 int   ft_atoi(const char	*str);
 int   valid_values(t_data *data);
 int   valid_numbers(char *av);
+
 int   initializer(t_data *data);
+void  init_queue(t_data *data);
+
+int create_threads(t_data *data);
+int join_threads(t_data *data);
+
 void  *coder_routine(void *coder);
-int   get_args(int ac, char **av, t_data *data);
-void  release_dongles(t_coder *coder);
-void  append_queue(t_coder *coder);
+
 int   acquire_dongles(t_coder *coder);
+void  release_dongles(t_coder *coder);
+
+void  append_queue(t_coder *coder);
 
 
 #endif
