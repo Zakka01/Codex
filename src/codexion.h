@@ -48,12 +48,13 @@ typedef struct s_data
   long        number_of_compiles;
   long        dongle_cooldown;
   char        *scheduler;
-
+  
   int         *queue;
   int         queue_size;
   t_coder     *coders;
   t_dongle    *dongles;
 
+  pthread_mutex_t scheduler_lock;
 } t_data;
 
 

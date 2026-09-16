@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 13:54:07 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/16 19:12:23 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/16 20:38:22 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void init_queue(t_data *data)
     {
         data->queue[data->queue_size] = data->coders[i].id;
         data->queue_size++;
-        printf("C%d added\n", data->coders[i].id + 1);
+        // printf("C%d added\n", data->coders[i].id + 1);
         i++;
     }
 }
@@ -37,7 +37,6 @@ int init_dongles(t_data *data)
     int i;
 
     i = 0;
-
     while (i < data->number_of_coders){
         data->dongles[i].coder_id = -1;
         data->dongles[i].id = i;
@@ -66,7 +65,6 @@ int init_coders(t_data *data)
 
 int initializer(t_data *data)
 {
-
     data->coders = malloc(sizeof(t_coder) * data->number_of_coders);
     if (!data->coders)
         return (0);
@@ -82,9 +80,10 @@ int initializer(t_data *data)
         return (0);
 
     init_queue(data);
+    pthread_mutex_init(&data->scheduler_lock, NULL);
+
     create_threads(data);
     join_threads(data);
-    
 
     return (1);
 }
