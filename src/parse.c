@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_helpers.c                                    :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 16:05:51 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/12 13:57:43 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/16 15:04:10 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	ft_atoi(const char	*str)
 	return ((int)(res * sign));
 }
 
-
 int valid_values(t_data *data)
 {
     if (data->number_of_coders < 1 || data->number_of_coders > 200)
@@ -70,4 +69,50 @@ int valid_numbers(char *av)
       j++;
     }
     return 1;
+}
+
+int get_args(int ac, char **av, t_data *data)
+{
+    int     i;
+
+    if (ac != 9)
+    {
+        printf("Error: arguments are not valid\n");
+        return 0;
+    }
+
+    i = 1;
+    while (i <= 8)
+    {
+        // check if the scheduler is valid
+        if (i == 8){
+          if (strcmp(av[i], "fifo") != 0 && strcmp(av[i], "edf") != 0) {
+            printf("Error: invalid scheduler\n");
+            return 0;
+          }
+        }
+
+        // check if the numbers are valid
+        else if (!valid_numbers(av[i]))
+        {
+            printf("Error: invalid numeric argument\n");
+            return 0;
+        }
+        i++;
+    }
+
+    data->number_of_coders = ft_atoi(av[1]);
+    data->time_to_burnout = ft_atoi(av[2]);
+    data->time_to_compile = ft_atoi(av[3]);
+    data->time_to_debug = ft_atoi(av[4]);
+    data->time_to_refactor = ft_atoi(av[5]);
+    data->number_of_compiles = ft_atoi(av[6]);
+    data->dongle_cooldown = ft_atoi(av[7]);
+    data->scheduler = av[8];
+
+    // check if the values are valid
+    if (!valid_values(data))
+      return (0);
+
+    return (1);
 }

@@ -49,6 +49,10 @@ typedef struct s_data
   long        dongle_cooldown;
   char        *scheduler;
 
+  pthread_mutex_t start_mutex;
+  pthread_cond_t  start_cond;
+  int             start;
+
   int         *queue;
   int         queue_size;
   t_coder     *coders;
@@ -57,11 +61,15 @@ typedef struct s_data
 } t_data;
 
 
-int	ft_atoi(const char	*str);
-int valid_values(t_data *data);
-int valid_numbers(char *av);
-int initializer(t_data *data);
-void *coder_routine(void *coder);
+int   ft_atoi(const char	*str);
+int   valid_values(t_data *data);
+int   valid_numbers(char *av);
+int   initializer(t_data *data);
+void  *coder_routine(void *coder);
+int   get_args(int ac, char **av, t_data *data);
+void  release_dongles(t_coder *coder);
+void  append_queue(t_coder *coder);
+int   acquire_dongles(t_coder *coder);
 
 
 #endif

@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   dongle.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/12 15:47:29 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/15 16:39:58 by zahrabar         ###   ########.fr       */
+/*   Created: 2026/09/16 15:04:32 by zahrabar          #+#    #+#             */
+/*   Updated: 2026/09/16 15:05:36 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./codexion.h"
-#include <stdio.h>
 
 void release_dongles(t_coder *coder)
 {
@@ -30,7 +29,7 @@ void append_queue(t_coder *coder)
         if (coder->data->queue_size < coder->data->number_of_coders)
         {   
             coder->data->queue[coder->data->queue_size] = coder->id;
-            // printf("queue = [coder C%d]\n", coder->id);
+            printf("queue = [coder C%d]\n", coder->id);
             coder->data->queue_size++;
         }   
     }
@@ -59,30 +58,5 @@ int acquire_dongles(t_coder *coder)
         }
         i++;   
     }
-    append_queue(coder);
     return (0);
-}
-
-void *coder_routine(void *coder)
-{
-    t_coder *coder1;
-    int     res;
-
-    coder1 = (t_coder *)coder;
-    res = acquire_dongles(coder1);
-
-    if (res == 1)
-    {
-        printf("0 %d is compiling\n", coder1->id + 1);
-        usleep(coder1->data->time_to_compile * 1000);
-        
-        release_dongles(coder1);
-        
-        printf("0 %d is debugging\n", coder1->id + 1);
-        usleep(coder1->data->time_to_debug * 1000);
-        printf("0 %d is refactoring\n", coder1->id + 1);
-        usleep(coder1->data->time_to_refactor * 1000);
-    }
-        
-    return (NULL);
 }

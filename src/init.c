@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 13:54:07 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/14 20:50:51 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/16 14:54:50 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int init_coders(t_data *data)
             return (0);
         i++;
     }
+
     j = 0;
     while (j < data->number_of_coders){
         pthread_join(data->coders[j].thread, NULL);
@@ -68,6 +69,7 @@ int initializer(t_data *data){
         return (0);
 
     init_dongles(data);
+
     if (!init_coders(data))
         return (0);
 
