@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:04:32 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/16 15:33:48 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/16 18:54:03 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int acquire_dongles(t_coder *coder)
     i = 0;
     while (i < coder->data->number_of_coders)
     {
+        // pthread_mutex_lock
         i++;
     }
     return (0);

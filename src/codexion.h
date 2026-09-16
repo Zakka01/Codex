@@ -49,10 +49,6 @@ typedef struct s_data
   long        dongle_cooldown;
   char        *scheduler;
 
-  pthread_mutex_t start_mutex;
-  pthread_cond_t  start_cond;
-  int             start;
-
   int         *queue;
   int         queue_size;
   t_coder     *coders;
@@ -80,5 +76,7 @@ void  release_dongles(t_coder *coder);
 
 void  append_queue(t_coder *coder);
 
+int scheduler_fifo(t_coder *coder);
+int scheduler_edf(t_coder *coder);
 
 #endif

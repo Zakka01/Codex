@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:44:49 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/16 15:50:22 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/16 17:46:32 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int join_threads(t_data *data)
     int j;
 
     j = 0;
-    while (j < data->number_of_coders){\
+    while (j < data->number_of_coders){
         if (pthread_join(data->coders[j].thread, NULL) != 0)
             return (0);
         j++;

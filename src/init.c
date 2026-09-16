@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 13:54:07 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/16 16:26:28 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/16 19:12:23 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ int init_coders(t_data *data)
     return (1);
 }
 
-int initializer(t_data *data){
+int initializer(t_data *data)
+{
 
     data->coders = malloc(sizeof(t_coder) * data->number_of_coders);
     if (!data->coders)
@@ -81,6 +82,9 @@ int initializer(t_data *data){
         return (0);
 
     init_queue(data);
+    create_threads(data);
+    join_threads(data);
+    
 
     return (1);
 }
