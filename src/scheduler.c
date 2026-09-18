@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 16:36:36 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/16 20:46:20 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/18 17:47:52 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,16 @@ int get_coder(t_coder *coder)
     int chosen_coder;
     int i;
 
-    chosen_coder = coder->data->queue[0];
     i = 0;
-
-    // shift
-    while (i < coder->data->queue_size)
+    chosen_coder = coder->data->queue[0];
+    while (i < coder->data->queue_size - 1)
     {
         coder->data->queue[i] = coder->data->queue[i + 1];
         i++;
     }
-    // reduce queue size
     coder->data->queue_size--;
+    // printf("Chosen C%d\n", chosen_coder);
+    // printf("Last One C%d\n", coder->data->queue[-1]);
     return (chosen_coder);
 }
 
@@ -39,31 +38,44 @@ void work(t_coder *coder)
     usleep(coder->data->time_to_debug * 1000);
     printf("%d is refactoring\n", coder->id + 1);
     usleep(coder->data->time_to_refactor * 1000);
+    // printf("===> %d Done Work\n", coder->id + 1);
 }
 
 int scheduler_fifo(t_coder *coder)
 {
     int n_compiles;
-    int chosen_coder;
-    
+    int chosen;
+
     n_compiles = coder->data->number_of_compiles;
-    
     while (n_compiles > 0)
     {
         pthread_mutex_lock(&coder->data->scheduler_lock);
-        chosen_coder = get_coder(coder);
+
+        while (coder->data->current_coder != coder->id)
+            pthread_cond_wait(&coder->data->scheduler_cond,
+                              &coder->data->scheduler_lock);
+                              
+        chosen = get_coder(coder);
         pthread_mutex_unlock(&coder->data->scheduler_lock);
 
-        if (acquire_dongles(&coder->data->coders[chosen_coder]) == 1)
+        if (acquire_dongles(coder) == 1)
         {
-            work(&coder->data->coders[chosen_coder]);
+            work(coder);
             release_dongles(coder);
         }
         
+        pthread_mutex_lock(&coder->data->scheduler_lock);
+
+        append_queue(&coder->data->coders[chosen]);
+        coder->data->current_coder = coder->data->queue[0];
+
+        pthread_cond_broadcast(&coder->data->scheduler_cond);
+        pthread_mutex_unlock(&coder->data->scheduler_lock);
+
         n_compiles--;
     }
 
-    return (chosen_coder);
+    return (0);
 }
 
 int scheduler_edf(t_coder *coder)

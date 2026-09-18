@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   codexion.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
+/*   Updated: 2026/09/18 17:11:21 by zahrabar         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 
 #ifndef CODEXION_H
 # define CODEXION_H
@@ -32,7 +44,6 @@ typedef struct s_coder
   int       dongle_1_id;
   int       dongle_2_id;
 
-  
   t_data    *data;
 
 } t_coder;
@@ -40,21 +51,34 @@ typedef struct s_coder
 
 typedef struct s_data
 {
-  int         number_of_coders;
-  long        time_to_burnout;
-  long        time_to_compile;
-  long        time_to_debug;
-  long        time_to_refactor;
-  long        number_of_compiles;
-  long        dongle_cooldown;
-  char        *scheduler;
+  // program data
+  int             number_of_coders;
+  long            time_to_burnout;
+  long            time_to_compile;
+  long            time_to_debug;
+  long            time_to_refactor;
+  long            number_of_compiles;
+  long            dongle_cooldown;
+  char            *scheduler;
+
+  // coders (threads) and dongles (shared resources)
+  t_coder         *coders;
+  t_dongle        *dongles;
   
-  int         *queue;
-  int         queue_size;
-  t_coder     *coders;
-  t_dongle    *dongles;
+  // queue waiting coders
+  int             *queue;
+  int             queue_size;
+
+  // start gate's states
+  pthread_mutex_t start_lock;
+  pthread_cond_t  start_cond;
+  int             ready_count;
 
   pthread_mutex_t scheduler_lock;
+  pthread_cond_t scheduler_cond;
+
+  int             current_coder;
+
 } t_data;
 
 
