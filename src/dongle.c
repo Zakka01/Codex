@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:04:32 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/18 16:38:54 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/18 19:10:44 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void release_dongles(t_coder *coder)
 {
+    usleep(coder->data->dongle_cooldown * 1000);
+
     coder->data->dongles[coder->dongle_1_id].coder_id = -1;
     coder->data->dongles[coder->dongle_2_id].coder_id = -1;
 
@@ -47,7 +49,7 @@ int acquire_dongles(t_coder *coder)
     coder->data->dongles[coder->id].coder_id = coder->id;
     coder->data->dongles[(coder->id + 1 )% coder->data->number_of_coders].coder_id = coder->id;
 
-    printf("%d has taken a dongle\n", coder->id + 1);
-    printf("%d has taken a dongle\n", coder->id + 1);
+    printf("%lu %d has taken a dongle\n", get_time_ms() - coder->data->start_time, coder->id + 1);
+    printf("%lu %d has taken a dongle\n", get_time_ms() - coder->data->start_time, coder->id + 1);
     return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/18 17:11:21 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/18 19:05:58 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <sys/time.h>
 
 
 typedef struct s_data t_data;
@@ -51,7 +52,7 @@ typedef struct s_coder
 
 typedef struct s_data
 {
-  // program data
+  // program data/params
   int             number_of_coders;
   long            time_to_burnout;
   long            time_to_compile;
@@ -59,6 +60,7 @@ typedef struct s_data
   long            time_to_refactor;
   long            number_of_compiles;
   long            dongle_cooldown;
+  long            start_time;
   char            *scheduler;
 
   // coders (threads) and dongles (shared resources)
@@ -74,9 +76,11 @@ typedef struct s_data
   pthread_cond_t  start_cond;
   int             ready_count;
 
+  // scheduler lock and cond for singnal coder's turn
   pthread_mutex_t scheduler_lock;
   pthread_cond_t scheduler_cond;
 
+  // current working coder
   int             current_coder;
 
 } t_data;
@@ -103,5 +107,7 @@ void  append_queue(t_coder *coder);
 
 int scheduler_fifo(t_coder *coder);
 int scheduler_edf(t_coder *coder);
+
+long    get_time_ms(void);
 
 #endif

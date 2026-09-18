@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 16:36:36 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/18 17:47:52 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/18 19:09:23 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,17 @@ int get_coder(t_coder *coder)
         i++;
     }
     coder->data->queue_size--;
-    // printf("Chosen C%d\n", chosen_coder);
-    // printf("Last One C%d\n", coder->data->queue[-1]);
     return (chosen_coder);
 }
 
 void work(t_coder *coder)
 {
-    printf("%d is compiling\n", coder->id + 1);
+    printf("%lu %d is compiling\n", get_time_ms() - coder->data->start_time, coder->id + 1);
     usleep(coder->data->time_to_compile * 1000);
-    printf("%d is debugging\n", coder->id + 1);
+    printf("%lu %d is debugging\n", get_time_ms() - coder->data->start_time, coder->id + 1);
     usleep(coder->data->time_to_debug * 1000);
-    printf("%d is refactoring\n", coder->id + 1);
+    printf("%lu %d is refactoring\n", get_time_ms() - coder->data->start_time, coder->id + 1);
     usleep(coder->data->time_to_refactor * 1000);
-    // printf("===> %d Done Work\n", coder->id + 1);
 }
 
 int scheduler_fifo(t_coder *coder)
@@ -51,7 +48,7 @@ int scheduler_fifo(t_coder *coder)
     {
         pthread_mutex_lock(&coder->data->scheduler_lock);
 
-        while (coder->data->current_coder != coder->id)
+        while ((coder->data->current_coder != coder->id))
             pthread_cond_wait(&coder->data->scheduler_cond,
                               &coder->data->scheduler_lock);
                               
