@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 16:36:36 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/18 19:09:23 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/19 23:32:05 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,14 @@ int get_coder(t_coder *coder)
 
 void work(t_coder *coder)
 {
+    coder->last_action_time = get_time_ms();
+
     printf("%lu %d is compiling\n", get_time_ms() - coder->data->start_time, coder->id + 1);
     usleep(coder->data->time_to_compile * 1000);
+
     printf("%lu %d is debugging\n", get_time_ms() - coder->data->start_time, coder->id + 1);
     usleep(coder->data->time_to_debug * 1000);
+
     printf("%lu %d is refactoring\n", get_time_ms() - coder->data->start_time, coder->id + 1);
     usleep(coder->data->time_to_refactor * 1000);
 }
@@ -48,13 +52,27 @@ int scheduler_fifo(t_coder *coder)
     {
         pthread_mutex_lock(&coder->data->scheduler_lock);
 
-        while ((coder->data->current_coder != coder->id))
+        while (coder->data->current_coder != coder->id && !coder->data->scheduler_over)
             pthread_cond_wait(&coder->data->scheduler_cond,
                               &coder->data->scheduler_lock);
-                              
+        // if one of the coder burnout scheduler over = 1
+        if (coder->data->scheduler_over)
+        {
+            pthread_mutex_unlock(&coder->data->scheduler_lock);
+            return (1);
+        }
         chosen = get_coder(coder);
         pthread_mutex_unlock(&coder->data->scheduler_lock);
 
+        if (get_time_ms() - coder->last_action_time >= coder->data->time_to_burnout)
+        {   
+            printf("%lu %d burnout\n", get_time_ms() - coder->data->start_time, coder->id + 1);
+            pthread_mutex_lock(&coder->data->scheduler_lock);
+            coder->data->scheduler_over = 1;
+            pthread_cond_broadcast(&coder->data->scheduler_cond);
+            pthread_mutex_unlock(&coder->data->scheduler_lock);
+            return (1);
+        }
         if (acquire_dongles(coder) == 1)
         {
             work(coder);
@@ -71,7 +89,6 @@ int scheduler_fifo(t_coder *coder)
 
         n_compiles--;
     }
-
     return (0);
 }
 

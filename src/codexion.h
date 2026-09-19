@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/18 19:05:58 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/19 23:00:51 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_coder
   pthread_t thread;
   int       dongle_1_id;
   int       dongle_2_id;
+  long      last_action_time;
 
   t_data    *data;
 
@@ -82,6 +83,9 @@ typedef struct s_data
 
   // current working coder
   int             current_coder;
+
+  // stop the scheduler when coder burnout
+  int             scheduler_over;
 
 } t_data;
 

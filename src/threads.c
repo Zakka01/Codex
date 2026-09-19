@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:44:49 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/17 18:40:26 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/19 22:41:50 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,10 @@ int create_threads(t_data *data)
     i = 0;
     while (i < data->number_of_coders)
     {   
-        if (pthread_create(&data->coders[i].thread, NULL, coder_routine, &data->coders[i]))
+        if (pthread_create(&data->coders[i].thread, NULL, coder_routine, &data->coders[i]) != 0)
             return (0);
         i++;
     }
-
     return (1);
 }
 

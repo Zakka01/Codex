@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 15:47:29 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/18 18:02:30 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/19 23:11:30 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,19 +32,23 @@ void start_gate(t_coder *coder)
     pthread_mutex_unlock(&coder->data->start_lock);
 }
 
+
 void *coder_routine(void *arg)
 {
     t_coder *coder;
 
     coder = (t_coder *)arg;
     start_gate(coder);
+    coder->last_action_time = coder->data->start_time;
+
     if (strcmp(coder->data->scheduler, "fifo") == 0)
     {
-        scheduler_fifo(coder);
+        if (scheduler_fifo(coder) == 1){
+            return (NULL);
+        }
     }
-    else{
+    else
         scheduler_edf(coder);
-    }
 
     return (NULL);
 }
