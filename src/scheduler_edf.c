@@ -1,33 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   codexion.c                                         :+:      :+:    :+:   */
+/*   scheduler_edf.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/11 16:05:03 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/20 21:59:59 by zahrabar         ###   ########.fr       */
+/*   Created: 2026/09/20 17:29:14 by zahrabar          #+#    #+#             */
+/*   Updated: 2026/09/20 17:29:22 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./codexion.h"
 
-long    get_time_ms(void)
+int scheduler_edf(t_coder *coder)
 {
-    struct timeval tv;
-
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
-}
-
-int main(int ac, char **av){
-    t_data data;
-    
-    if (!get_args(ac, av, &data))
-      return (0);
-  
-    if (!initializer(&data))
-      return (0);
-
-    printf("%s", "Done\n"); // check if prgram ends correctly
+    (void)coder;
+    return 0;
 }

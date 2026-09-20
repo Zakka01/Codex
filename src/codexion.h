@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/19 23:00:51 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/20 21:20:17 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,13 @@ typedef struct s_data
   pthread_cond_t scheduler_cond;
 
   // current working coder
-  int             current_coder;
+  int             current_coder1;
+  int             current_coder2;
 
   // stop the scheduler when coder burnout
   int             scheduler_over;
 
+  int             done_count;
 } t_data;
 
 
@@ -104,7 +106,7 @@ int join_threads(t_data *data);
 
 void  *coder_routine(void *coder);
 
-int   acquire_dongles(t_coder *coder);
+int   acquire_dongles(t_coder *coder, int flag);
 void  release_dongles(t_coder *coder);
 
 void  append_queue(t_coder *coder);

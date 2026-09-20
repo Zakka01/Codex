@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 15:47:29 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/19 23:11:30 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/20 21:20:38 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void start_gate(t_coder *coder)
 
     if (coder->data->ready_count == coder->data->number_of_coders)
     {   
-        coder->data->current_coder = 0;
+        coder->data->current_coder1 = 0;
+        coder->data->current_coder2 = 1;
         pthread_cond_broadcast(&coder->data->start_cond);
     }
     else
@@ -40,6 +41,7 @@ void *coder_routine(void *arg)
     coder = (t_coder *)arg;
     start_gate(coder);
     coder->last_action_time = coder->data->start_time;
+    coder->data->done_count = 0;
 
     if (strcmp(coder->data->scheduler, "fifo") == 0)
     {

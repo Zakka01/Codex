@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 13:54:07 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/19 23:01:27 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/20 21:16:52 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ int initializer(t_data *data)
 
     init_queue(data);
     data->scheduler_over = 0;
-    data->current_coder = -1;
+    data->current_coder1 = -1;
+    data->current_coder2 = -1;
     data->ready_count = 0;
 
     pthread_mutex_init(&data->scheduler_lock, NULL);
