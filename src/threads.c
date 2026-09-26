@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:44:49 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/19 22:41:50 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/25 18:42:41 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int create_threads(t_data *data)
             return (0);
         i++;
     }
+    pthread_create(&data->monitor, NULL, monitor_routine, data);
     return (1);
 }
 
@@ -36,5 +37,6 @@ int join_threads(t_data *data)
             return (0);
         j++;
     }
+    pthread_join(data->monitor, NULL);
     return (1);
 }

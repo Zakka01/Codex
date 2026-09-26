@@ -6,51 +6,51 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 15:47:29 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/20 21:20:38 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/26 19:57:19 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./codexion.h"
 
-void start_gate(t_coder *coder)
+int    call_fifo(t_coder *coder)
 {
-    pthread_mutex_lock(&coder->data->start_lock);
-    coder->data->ready_count++;
+    int     priority;
 
-    if (coder->data->ready_count == coder->data->number_of_coders)
-    {   
-        coder->data->current_coder1 = 0;
-        coder->data->current_coder2 = 1;
-        pthread_cond_broadcast(&coder->data->start_cond);
-    }
-    else
-    {
-        while (coder->data->ready_count < coder->data->number_of_coders)
-            pthread_cond_wait(&coder->data->start_cond,
-                              &coder->data->start_lock);
-    }
+    pthread_mutex_lock(&coder->data->scheduler_lock);
+    priority = coder->data->priority;
+    coder->data->priority++;
+    heap_push(coder->data->heap, coder->id, priority);
+    printf("C%d priority %d\n", coder->id + 1, coder->data->priority);
+    printf("\n");
+    
+    pthread_mutex_unlock(&coder->data->scheduler_lock);
 
-    pthread_mutex_unlock(&coder->data->start_lock);
+    if (scheduler_fifo(coder) == 1)
+        return (1);
+    return (0);
 }
 
+int    call_edf(t_coder *coder)
+{
+    if (scheduler_edf(coder) == 1)
+        return (1);
+    return (0);
+}
 
 void *coder_routine(void *arg)
 {
     t_coder *coder;
 
     coder = (t_coder *)arg;
-    start_gate(coder);
-    coder->last_action_time = coder->data->start_time;
-    coder->data->done_count = 0;
-
     if (strcmp(coder->data->scheduler, "fifo") == 0)
     {
-        if (scheduler_fifo(coder) == 1){
+        if (call_fifo(coder) == 1)
             return (NULL);
-        }
     }
     else
-        scheduler_edf(coder);
-
+    {
+        if (call_edf(coder) == 1)
+            return (NULL);
+    }
     return (NULL);
 }

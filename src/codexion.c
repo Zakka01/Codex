@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 16:05:03 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/20 21:59:59 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/25 18:51:59 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,4 @@ int main(int ac, char **av){
   
     if (!initializer(&data))
       return (0);
-
-    printf("%s", "Done\n"); // check if prgram ends correctly
 }
