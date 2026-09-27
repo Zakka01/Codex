@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 15:04:32 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 19:56:53 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/26 21:53:57 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,6 @@
 
 void	release_dongles(t_coder *coder)
 {
-	// printf("C%d release: d1=%d d2=%d\n",
-	// 	coder->id + 1,
-	// 	coder->dongle_1_id + 1,
-	// 	coder->dongle_2_id + 1);
-
 	usleep(coder->data->dongle_cooldown * 1000);
 	
 	pthread_mutex_unlock(&coder->data->dongles[coder->dongle_1_id].lock);
@@ -44,10 +39,10 @@ int	acquire_dongles(t_coder *coder)
 		return (1);
 
 	pthread_mutex_lock(&coder->data->dongles[coder->id].lock);
-	printf("%lu %d has taken a dongle\n", get_time_ms() - coder->data->start_time, coder->id + 1);
-
+	print_log(coder, " has taken a dongle\n");
+	
 	pthread_mutex_lock(&coder->data->dongles[(coder->id + 1) % coder->data->number_of_coders].lock);
-	printf("%lu %d has taken a dongle\n", get_time_ms() - coder->data->start_time, coder->id + 1);
+	print_log(coder, " has taken a dongle\n");
 
 	coder->dongle_1_id = coder->data->dongles[coder->id].id;
 	coder->dongle_2_id = coder->data->dongles[

@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 15:47:29 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 19:57:19 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/26 22:40:10 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ int    call_fifo(t_coder *coder)
     pthread_mutex_lock(&coder->data->scheduler_lock);
     priority = coder->data->priority;
     coder->data->priority++;
-    heap_push(coder->data->heap, coder->id, priority);
-    printf("C%d priority %d\n", coder->id + 1, coder->data->priority);
-    printf("\n");
+
+    heap_push(coder->data->dongles[coder->id].heap, coder->id, priority);
+    heap_push(coder->data->dongles[(coder->id + 1) % coder->data->number_of_coders].heap, coder->id, priority);
+
+    // printf("C%d priority %d\n", coder->id + 1, coder->data->priority);
+    // printf("\n");
     
     pthread_mutex_unlock(&coder->data->scheduler_lock);
 

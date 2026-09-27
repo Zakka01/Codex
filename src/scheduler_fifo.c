@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 16:36:36 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 19:53:31 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/26 22:45:34 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void work(t_coder *coder)
     coder->is_compiling = 1;
     pthread_mutex_unlock(&coder->data->scheduler_lock);
 
-    printf("%lu %d is compiling\n", get_time_ms() - coder->data->start_time, coder->id + 1);
+    print_log(coder, " is compiling\n");
     usleep(coder->data->time_to_compile * 1000);
 
     pthread_mutex_lock(&coder->data->scheduler_lock);
@@ -31,16 +31,18 @@ void work(t_coder *coder)
         return;
 
     release_dongles(coder);
-    
-    printf("%lu %d is debugging\n", get_time_ms() - coder->data->start_time, coder->id + 1);
-    usleep(coder->data->time_to_debug * 1000);
-    
-    if (coder->data->scheduler_over)
+    if (coder->data->scheduler_over){
         return;
+    }
+    print_log(coder, " is debugging\n");
+    usleep(coder->data->time_to_debug * 1000);
 
-    printf("%lu %d is refactoring\n", get_time_ms() - coder->data->start_time, coder->id + 1);
+    if (coder->data->scheduler_over){
+        return;
+    }
+
+	print_log(coder, " is refactoring\n");
     usleep(coder->data->time_to_refactor * 1000);
-
     if (coder->data->scheduler_over)
         return;
 }
@@ -53,7 +55,10 @@ int scheduler_fifo(t_coder *coder)
     while (n_compiles > 0)
     {
         pthread_mutex_lock(&coder->data->scheduler_lock);
-        while(!coder->data->scheduler_over && (coder->id != coder->data->heap->items[0].coder_id || acquire_dongles(coder) == 1))
+        while(!coder->data->scheduler_over
+            && (coder->id != coder->data->dongles[coder->id].heap->items[0].coder_id
+            || coder->id != coder->data->dongles[(coder->id + 1) % coder->data->number_of_coders].heap->items[0].coder_id
+            || acquire_dongles(coder) == 1))
             pthread_cond_wait(&coder->data->scheduler_cond, &coder->data->scheduler_lock);
 
         if (coder->data->scheduler_over)
@@ -62,7 +67,8 @@ int scheduler_fifo(t_coder *coder)
             return (1);
         }
 
-        heap_pop(coder->data->heap);
+        heap_pop(coder->data->dongles[coder->id].heap);
+        heap_pop(coder->data->dongles[(coder->id + 1) % coder->data->number_of_coders].heap);
         pthread_mutex_unlock(&coder->data->scheduler_lock);
         work(coder);
         n_compiles--;
@@ -70,7 +76,8 @@ int scheduler_fifo(t_coder *coder)
         if (n_compiles > 0 && !coder->data->scheduler_over)
         {
             pthread_mutex_lock(&coder->data->scheduler_lock);
-            heap_push(coder->data->heap, coder->id, coder->data->priority);
+            heap_push(coder->data->dongles[coder->id].heap, coder->id, coder->data->priority);
+            heap_push(coder->data->dongles[(coder->id + 1) % coder->data->number_of_coders].heap, coder->id, coder->data->priority);        
             coder->data->priority++;
             pthread_cond_broadcast(&coder->data->scheduler_cond);
             pthread_mutex_unlock(&coder->data->scheduler_lock);
@@ -78,15 +85,12 @@ int scheduler_fifo(t_coder *coder)
     }
 
     pthread_mutex_lock(&coder->data->scheduler_lock);
-
     coder->data->coders_finished++;
-
     if (coder->data->coders_finished == coder->data->number_of_coders)
     {
         coder->data->scheduler_over = 1;
         pthread_cond_broadcast(&coder->data->scheduler_cond);
     }
-
     pthread_mutex_unlock(&coder->data->scheduler_lock);
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 19:53:05 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/26 21:53:11 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ typedef struct s_request
 
 typedef struct s_heap
 {
-    t_request *items;
-    int        size;
-    int        capacity;
+  t_request *items;
+  int        size;
+  int        capacity;
 
-    t_data    *data;
+  t_data    *data;
 } t_heap;
 
 
@@ -52,7 +52,9 @@ typedef struct s_dongle
   int             id;
   int             coder_id;
   pthread_mutex_t lock;
-
+  t_heap          *heap;
+  
+  t_data    *data;
 } t_dongle;
 
 
@@ -87,9 +89,9 @@ typedef struct s_data
   // coders (threads) and dongles (shared resources) and heap
   t_coder         *coders;
   t_dongle        *dongles;
-  t_heap          *heap;
 
   // scheduler lock and cond for singnal coder's turn
+  pthread_mutex_t print_lock;
   pthread_mutex_t scheduler_lock;
   pthread_cond_t scheduler_cond;
 
@@ -120,7 +122,7 @@ void  *coder_routine(void *coder);
 int   acquire_dongles(t_coder *coder);
 void  release_dongles(t_coder *coder);
 
-void    init_heap(t_data *data);
+void    init_heap(t_dongle *dongle);
 void    heap_push(t_heap *heap, int coder, int priority);
 void    heap_pop(t_heap *heap);
 
@@ -130,5 +132,6 @@ int scheduler_edf(t_coder *coder);
 void	*monitor_routine(void *arg);
 
 long    get_time_ms(void);
+void	print_log(t_coder *coder, char *msg);
 
 #endif

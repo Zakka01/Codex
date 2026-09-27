@@ -6,25 +6,11 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 19:42:10 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 18:47:43 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/26 20:51:28 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "codexion.h"
-#include <stdlib.h>
-
-void    init_heap(t_data *data)
-{
-    data->heap = malloc(sizeof(t_heap));
-	if (!data->heap)
-		return ;
-    data->heap->items = malloc(sizeof(t_request)
-			* data->number_of_coders);
-    if (!data->heap->items)
-        return ;
-    data->heap->size = 0;
-    data->heap->capacity = data->number_of_coders;
-}
 
 void    heap_push(t_heap *heap, int coder_id, int priority)
 {

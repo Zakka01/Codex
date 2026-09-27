@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/25 17:17:26 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 19:54:25 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/26 21:55:36 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,11 @@ void	*monitor_routine(void *arg)
             && !data->coders[i].is_compiling
             && now - data->coders[i].last_action_time >= data->time_to_burnout)
 			{
-                printf("%lu %d burnout\n",
-					now - data->start_time, i + 1);
-                    data->scheduler_over = 1;
-                    pthread_cond_broadcast(&data->scheduler_cond);
-                    pthread_mutex_unlock(&data->scheduler_lock);
-                    return (NULL);
+                print_log(&data->coders[i], " burnout\n");
+                data->scheduler_over = 1;
+                pthread_cond_broadcast(&data->scheduler_cond);
+                pthread_mutex_unlock(&data->scheduler_lock);
+                return (NULL);
             }
             i++;
         }
