@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 13:54:07 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 21:36:14 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/28 20:03:29 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int init_dongles(t_data *data)
         pthread_mutex_init(&data->dongles[i].lock, NULL);
         i++;
     }
-    return (1);
+    return (0);
 }
 
 void	init_heap(t_dongle *dongle)
@@ -58,7 +58,7 @@ int init_coders(t_data *data)
         i++;
     }
 
-    return (1);
+    return (0);
 }
 
 int initializer(t_data *data)
@@ -71,11 +71,11 @@ int initializer(t_data *data)
     if (!data->dongles)
         return (1);
 
-    if (!init_dongles(data))
+    if (init_dongles(data))
         return (1);
 
     data->start_time = get_time_ms();
-    if (!init_coders(data))
+    if (init_coders(data))
         return (1);
     
     data->scheduler_over = 0;

@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 16:05:03 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/25 18:51:59 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/28 20:01:47 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ long    get_time_ms(void)
 int main(int ac, char **av){
     t_data data;
     
-    if (!get_args(ac, av, &data))
-      return (0);
+    if (get_args(ac, av, &data))
+      return (1);
   
-    if (!initializer(&data))
-      return (0);
+    if (initializer(&data))
+      return (1);
 }

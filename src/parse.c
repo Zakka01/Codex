@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 16:05:51 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/16 15:04:10 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/28 20:15:52 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,21 @@ int valid_values(t_data *data)
     if (data->number_of_coders < 1 || data->number_of_coders > 200)
     {
       printf("Error: number of coders is not valid\n");
-      return (0);
+      return (1);
     }
 
     if (data->time_to_burnout <= 0 || data->time_to_compile <= 0 || data->time_to_debug <= 0 || data->time_to_refactor <= 0)
     {
       printf("Error: time to burnout, compile, debug, or refactor is not valid (must be greater than 0)\n");
-      return (0);
+      return (1);
     }
-    return (1);
+
+    if (data->number_of_compiles <= 0)
+    {
+      printf("Error: number_of_compiles is not valid (must be greater than 0)\n");
+      return (1);
+    }
+    return (0);
 }
 
 
@@ -65,10 +71,10 @@ int valid_numbers(char *av)
     j = 0;
     while (av[j]){
       if (av[j] < '0' || av[j] > '9')
-        return 0;
+        return (1);
       j++;
     }
-    return 1;
+    return (0);
 }
 
 int get_args(int ac, char **av, t_data *data)
@@ -78,7 +84,7 @@ int get_args(int ac, char **av, t_data *data)
     if (ac != 9)
     {
         printf("Error: arguments are not valid\n");
-        return 0;
+        return (1);
     }
 
     i = 1;
@@ -88,15 +94,15 @@ int get_args(int ac, char **av, t_data *data)
         if (i == 8){
           if (strcmp(av[i], "fifo") != 0 && strcmp(av[i], "edf") != 0) {
             printf("Error: invalid scheduler\n");
-            return 0;
+            return (1);
           }
         }
 
         // check if the numbers are valid
-        else if (!valid_numbers(av[i]))
+        else if (valid_numbers(av[i]))
         {
             printf("Error: invalid numeric argument\n");
-            return 0;
+            return (1);
         }
         i++;
     }
@@ -111,8 +117,8 @@ int get_args(int ac, char **av, t_data *data)
     data->scheduler = av[8];
 
     // check if the values are valid
-    if (!valid_values(data))
-      return (0);
+    if (valid_values(data))
+      return (1);
 
-    return (1);
+    return (0);
 }

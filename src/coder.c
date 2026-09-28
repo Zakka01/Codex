@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 15:47:29 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/28 19:00:04 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/28 20:09:04 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,27 @@ int    call_edf(t_coder *coder)
     return (0);
 }
 
+void wait_lone_coder(t_coder *coder)
+{
+    pthread_mutex_lock(&coder->data->dongles[0].lock);
+    print_log(coder, " has taken a dongle\n");
+    pthread_mutex_lock(&coder->data->scheduler_lock);
+    while (!coder->data->scheduler_over)
+        pthread_cond_wait(&coder->data->scheduler_cond, &coder->data->scheduler_lock);
+    pthread_mutex_unlock(&coder->data->scheduler_lock);
+    pthread_mutex_unlock(&coder->data->dongles[0].lock);
+}
+
 void *coder_routine(void *arg)
 {
     t_coder *coder;
 
     coder = (t_coder *)arg;
+    if (coder->data->number_of_coders == 1)
+    {
+        wait_lone_coder(coder);
+        return (NULL);
+    }
     if (strcmp(coder->data->scheduler, "fifo") == 0)
     {
         if (call_fifo(coder) == 1)
