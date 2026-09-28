@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 21:53:11 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/28 18:47:59 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ typedef struct s_dongle t_dongle;
 
 typedef struct s_request
 {
-    int coder_id;
-    int priority;
+  int           coder_id;
+  int           priority;
+  unsigned long deadline;
+
 } t_request;
 
 
@@ -66,7 +68,8 @@ typedef struct s_coder
   int             dongle_2_id;
   unsigned long   compile_count;
   int             is_compiling;
-  long            last_action_time;
+  unsigned long   last_action_time;
+  unsigned long   deadline;
 
   t_data          *data;
 
@@ -106,32 +109,25 @@ typedef struct s_data
 
 
 int   get_args(int ac, char **av, t_data *data);
-
 int   ft_atoi(const char	*str);
 int   valid_values(t_data *data);
 int   valid_numbers(char *av);
-
 int   initializer(t_data *data);
-void  init_queue(t_data *data);
-
-int create_threads(t_data *data);
-int join_threads(t_data *data);
-
+int   create_threads(t_data *data);
+int   join_threads(t_data *data);
 void  *coder_routine(void *coder);
-
-int   acquire_dongles(t_coder *coder);
-void  release_dongles(t_coder *coder);
-
-void    init_heap(t_dongle *dongle);
-void    heap_push(t_heap *heap, int coder, int priority);
-void    heap_pop(t_heap *heap);
-
-int scheduler_fifo(t_coder *coder);
-int scheduler_edf(t_coder *coder);
-
 void	*monitor_routine(void *arg);
 
-long    get_time_ms(void);
+void  init_heap(t_dongle *dongle);
+void  heap_push(t_heap *heap, int coder, int priority);
+void  heap_push_edf(t_heap *heap, int coder, unsigned long deadline, int priority);
+void  heap_pop(t_heap *heap);
+int   acquire_dongles(t_coder *coder);
+void  release_dongles(t_coder *coder);
+int   scheduler_fifo(t_coder *coder);
+int   scheduler_edf(t_coder *coder);
+void  work(t_coder *coder);
+long  get_time_ms(void);
 void	print_log(t_coder *coder, char *msg);
 
 #endif

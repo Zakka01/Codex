@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 19:42:10 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 20:51:28 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/28 18:07:40 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,37 @@ void    heap_push(t_heap *heap, int coder_id, int priority)
         parent = (i - 1) / 2;
         if (heap->items[i].priority >= heap->items[parent].priority)
             break;
+        temp = heap->items[parent];
+        heap->items[parent] = heap->items[i];
+        heap->items[i] = temp;
+
+        i = parent;
+    }
+}
+
+void  heap_push_edf(t_heap *heap, int coder_id, unsigned long deadline, int priority)
+{
+	int         i;
+    int         parent;
+    t_request   temp;
+
+    if (heap->size >= heap->capacity)
+        return;
+    
+    i = heap->size;
+    heap->items[i].coder_id = coder_id;
+    heap->items[i].priority = priority;
+    heap->items[i].deadline = deadline;
+    heap->size++;
+
+    while (i > 0)
+    {
+        parent = (i - 1) / 2;
+        if (heap->items[i].deadline > heap->items[parent].deadline)
+            break;
+		if (heap->items[i].deadline == heap->items[parent].deadline)
+			if (heap->items[i].priority > heap->items[parent].priority)
+				break;
         temp = heap->items[parent];
         heap->items[parent] = heap->items[i];
         heap->items[i] = temp;

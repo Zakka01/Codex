@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/16 16:36:36 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 22:45:34 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/28 18:26:39 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int scheduler_fifo(t_coder *coder)
             pthread_mutex_unlock(&coder->data->scheduler_lock);
         }
     }
-
     pthread_mutex_lock(&coder->data->scheduler_lock);
     coder->data->coders_finished++;
     if (coder->data->coders_finished == coder->data->number_of_coders)
