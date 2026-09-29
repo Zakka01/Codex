@@ -1,34 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   codexion.c                                         :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/09/11 16:05:03 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/30 00:27:46 by zahrabar         ###   ########.fr       */
+/*   Created: 2026/09/30 00:05:54 by zahrabar          #+#    #+#             */
+/*   Updated: 2026/09/30 00:28:55 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./codexion.h"
-#include <stdlib.h>
 
-long    get_time_ms(void)
+void    cleanup(t_data *data)
 {
-    struct timeval tv;
+    int i;
 
-    gettimeofday(&tv, NULL);
-    return (tv.tv_sec * 1000L + tv.tv_usec / 1000L);
-}
-
-int main(int ac, char **av){
-    t_data data;
-
-    if (get_args(ac, av, &data))
-      return (1);
-
-    if (initializer(&data))
-      return (1);
-
-    return (0);
+    free(data->coders);
+    i = 0;
+    
+    while (i < data->number_of_coders)
+    {
+        free(data->dongles[i].heap->items);
+        free(data->dongles[i].heap);
+        i++;
+    }
+    free(data->dongles);
 }

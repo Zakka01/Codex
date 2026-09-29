@@ -6,11 +6,12 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 13:54:07 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/28 20:03:29 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/30 00:27:55 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./codexion.h"
+#include <stdlib.h>
 
 int init_dongles(t_data *data)
 {
@@ -35,7 +36,10 @@ void	init_heap(t_dongle *dongle)
 
 	dongle->heap->items = malloc(sizeof(t_request) * 2);
 	if (!dongle->heap->items)
-		return ;
+    {
+        free(dongle->heap);   
+        return ;
+    }
 
 	dongle->heap->size = 0;
 	dongle->heap->capacity = 2;
@@ -69,7 +73,10 @@ int initializer(t_data *data)
 
     data->dongles = malloc(sizeof(t_dongle) * data->number_of_coders);
     if (!data->dongles)
+    {
+        free(data->coders);   
         return (1);
+    }
 
     if (init_dongles(data))
         return (1);
@@ -88,6 +95,7 @@ int initializer(t_data *data)
 
     create_threads(data);
     join_threads(data);
+    cleanup(data);
 
     return (0);
 }

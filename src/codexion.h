@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/29 17:37:24 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/30 00:07:39 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,5 +126,7 @@ int           scheduler_edf(t_coder *coder);
 void          work(t_coder *coder);
 long          get_time_ms(void);
 void          print_log(t_coder *coder, char *msg);
+
+void          cleanup(t_data *data);
 
 #endif

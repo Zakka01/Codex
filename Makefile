@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -pthread
 
 NAME = codexion
 
@@ -19,7 +19,7 @@ $(NAME): $(OBJ)
 clean:
 	$(RM) $(OBJ)
 
-f: clean
+fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
