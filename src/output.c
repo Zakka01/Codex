@@ -6,21 +6,20 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/26 21:45:07 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/26 21:50:05 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/30 23:14:52 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./codexion.h"
 
-int ft_strlen(char *msg)
+int	ft_strlen(char *msg)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (msg[i])
-        i++;
-
-    return (i);
+	i = 0;
+	while (msg[i])
+		i++;
+	return (i);
 }
 
 void	ft_putnbr_fd(int n, int fd)
@@ -42,12 +41,10 @@ void	print_log(t_coder *coder, char *msg)
 	unsigned long	time;
 
 	pthread_mutex_lock(&coder->data->print_lock);
-
 	time = get_time_ms() - coder->data->start_time;
 	ft_putnbr_ul(time);
 	write(1, " ", 1);
 	ft_putnbr_fd(coder->id + 1, 1);
 	write(1, msg, ft_strlen(msg));
-
 	pthread_mutex_unlock(&coder->data->print_lock);
 }
