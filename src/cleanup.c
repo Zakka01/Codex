@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/30 00:05:54 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/30 00:28:55 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/09/30 21:13:19 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ void    cleanup(t_data *data)
     
     while (i < data->number_of_coders)
     {
+        pthread_mutex_destroy(&data->dongles[i].lock);
         free(data->dongles[i].heap->items);
         free(data->dongles[i].heap);
         i++;
     }
     free(data->dongles);
+    pthread_mutex_destroy(&data->print_lock);
+    pthread_mutex_destroy(&data->scheduler_lock);
+    pthread_cond_destroy(&data->scheduler_cond);
 }
