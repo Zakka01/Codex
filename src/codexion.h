@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/30 23:27:51 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/01 17:29:37 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void					heap_push_edf(t_heap *heap,
 void					heap_pop(t_heap *heap);
 int						acquire_dongles(t_coder *coder);
 void					release_dongles(t_coder *coder);
+void					finish_compiles(t_coder *coder);
 int						scheduler_fifo(t_coder *coder);
 int						scheduler_edf(t_coder *coder);
 void					work(t_coder *coder);
