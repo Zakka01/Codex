@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/17 18:17:14 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/10/01 17:29:37 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/02 21:35:03 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <ctype.h>
 # include <sys/time.h>
 # include <limits.h>
+# include <errno.h>
 
 typedef struct s_data	t_data;
 typedef struct s_coder	t_coder;
