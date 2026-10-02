@@ -6,11 +6,11 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/25 17:17:26 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/30 23:13:35 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/02 23:16:30 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.h"
+#include "./codexion.h"
 
 void	burnout_loop(t_data *data, unsigned long now)
 {
@@ -20,7 +20,7 @@ void	burnout_loop(t_data *data, unsigned long now)
 	while (i < data->number_of_coders)
 	{
 		if ((data->coders[i].compile_count < data->number_of_compiles)
-			&& !data->coders[i].is_compiling
+			&& data->coders[i].is_compiling == 0
 			&& now - data->coders[i].last_action_time
 			>= data->time_to_burnout)
 		{

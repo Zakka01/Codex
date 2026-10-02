@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/30 23:29:58 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/10/02 21:31:47 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/02 23:14:07 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,31 @@ struct timespec	control_time(t_coder *coder)
 		timeout.tv_sec++;
 		timeout.tv_nsec -= 1000000000;
 	}
-	pthread_mutex_lock(&coder->data->scheduler_lock);
 	return (timeout);
 }
 
-void	work(t_coder *coder)
+void	compiling(t_coder *coder)
 {
 	struct timespec	timeout;
 
+	pthread_mutex_lock(&coder->data->scheduler_lock);
 	timeout = control_time(coder);
 	coder->last_action_time = get_time_ms();
 	coder->is_compiling = 1;
 	print_log(coder, " is compiling\n");
-	if (!coder->data->scheduler_over)
-		pthread_cond_timedwait(&coder->data->scheduler_cond,
-			&coder->data->scheduler_lock, &timeout);
+	while (!coder->data->scheduler_over
+		&& pthread_cond_timedwait(&coder->data->scheduler_cond,
+			&coder->data->scheduler_lock, &timeout) != ETIMEDOUT)
+	{
+	}
 	coder->is_compiling = 0;
 	coder->compile_count++;
 	pthread_mutex_unlock(&coder->data->scheduler_lock);
+}
+
+void	work(t_coder *coder)
+{
+	compiling(coder);
 	if (coder->data->scheduler_over)
 		return ;
 	release_dongles(coder);

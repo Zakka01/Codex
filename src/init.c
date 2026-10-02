@@ -6,12 +6,11 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/12 13:54:07 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/30 23:04:29 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/02 23:14:15 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./codexion.h"
-#include <stdlib.h>
 
 int	init_dongles(t_data *data)
 {

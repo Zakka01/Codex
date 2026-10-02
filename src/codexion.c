@@ -6,12 +6,11 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 16:05:03 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/30 22:21:45 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/02 21:39:27 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./codexion.h"
-#include <stdlib.h>
 
 long	get_time_ms(void)
 {

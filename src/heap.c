@@ -6,11 +6,11 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/23 19:42:10 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/30 23:02:23 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/02 23:14:54 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "codexion.h"
+#include "./codexion.h"
 
 void	heap_push(t_heap *heap, int coder_id, int priority)
 {
