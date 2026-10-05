@@ -258,14 +258,8 @@ D3 → heap
 
 * 42 Codexion project subject.
 * POSIX Threads documentation: `pthread_create`, `pthread_join`, `pthread_mutex_*`, `pthread_cond_*`.
-* `man pthread_create`
-* `man pthread_mutex_lock`
-* `man pthread_cond_wait`
-* `man pthread_cond_timedwait`
-* `man clock_gettime`
-* `man write`
-* POSIX threads and synchronization documentation.
-* General resources about FIFO scheduling, Earliest Deadline First scheduling, mutexes, condition variables, deadlocks, and race conditions.
+* CodeVault | Unix Threads in C, playlist on youtube 
+* Some Documentation about mutexes, condition variables, deadlocks, and race conditions.
 
 ### AI usage
 
@@ -281,7 +275,6 @@ They were used for:
 * reviewing test outputs and identifying scheduling problems;
 * improving code structure and simplifying helper functions.
 
-The project implementation was tested and validated by the author through compilation, execution, concurrency tests, burnout tests, memory-leak checks, and scheduler tests.
 
 ## Testing
 
