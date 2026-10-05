@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/30 23:29:58 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/10/05 20:06:48 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/05 21:23:23 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void	refactoring(t_coder *coder)
 	{
 	}
 	pthread_mutex_unlock(&coder->data->scheduler_lock);
-	printf("C%d refactored\n", coder->id + 1);
 }
 
 void	work(t_coder *coder)
