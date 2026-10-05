@@ -6,7 +6,7 @@
 /*   By: zahrabar <zahrabar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/11 16:05:51 by zahrabar          #+#    #+#             */
-/*   Updated: 2026/09/30 23:27:33 by zahrabar         ###   ########.fr       */
+/*   Updated: 2026/10/03 20:07:11 by zahrabar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ int	valid_values(t_data *data)
 	{
 		printf("\033[41mError: time to burnout, compile, debug,"
 			" or refactor is not valid (must be greater than 0)\033[0m\n");
-		return (1);
-	}
-	if (data->number_of_compiles == 0)
-	{
-		printf("\033[41mError: number_of_compiles is not valid\033[0m\n");
 		return (1);
 	}
 	return (0);
