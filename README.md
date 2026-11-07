@@ -1,4 +1,3 @@
-*This project has been created by Zakka01*
 
 # Codexion
 
